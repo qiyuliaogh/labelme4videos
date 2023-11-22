@@ -1,9 +1,9 @@
 <h1 align="center">
-  <img src="labelme/icons/icon.png"><br/>labelme
+  <img src="labelme/icons/icon.png"><br/>labelme4videos
 </h1>
 
 <h4 align="center">
-  Image Polygonal Annotation with Python
+  Image and Video Polygonal Annotation with Python
 </h4>
 
 <div align="center">
@@ -46,7 +46,7 @@ It is written in Python and uses Qt for its graphical interface.
 
 - [x] Image annotation for polygon, rectangle, circle, line and point. ([tutorial](examples/tutorial))
 - [x] Image flag annotation for classification and cleaning. ([#166](https://github.com/wkentaro/labelme/pull/166))
-- [x] Video annotation. ([video annotation](examples/video_annotation))
+- [x] Video annotation (differs from wkentaro/labelme, including automatly loading videos, video object tracking, video instance segmentation and action recognition). ([video annotation](examples/video_annotation))
 - [x] GUI customization (predefined labels / flags, auto-saving, label validation, etc). ([#144](https://github.com/wkentaro/labelme/pull/144))
 - [x] Exporting VOC-format dataset for semantic/instance segmentation. ([semantic segmentation](examples/semantic_segmentation), [instance segmentation](examples/instance_segmentation))
 - [x] Exporting COCO-format dataset for instance segmentation. ([instance segmentation](examples/instance_segmentation))
@@ -233,4 +233,4 @@ MPLBACKEND='agg' pytest -vsx tests/
 
 ## Acknowledgement
 
-This repo is the fork of [mpitid/pylabelme](https://github.com/mpitid/pylabelme).
+This repo is the fork of [wkentaro/labelme](https://github.com/wkentaro/labelme).

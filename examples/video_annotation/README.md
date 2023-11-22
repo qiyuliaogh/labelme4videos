@@ -1,29 +1,32 @@
-# Video Annotation Example
+# Video Annotation
 
 
-## Annotation
+Video Annotation Feature Instructions
+The video annotation feature allows you to quickly annotate each frame of a video file. Follow these steps to get started:
 
-```bash
-labelme data_annotated --labels labels.txt --nodata --keep-prev --config '{shift_auto_shape_color: -2}'
-```
+1. Open Video Labelme
+First, open the Video Labelme application.
 
-<img src=".readme/00000100.jpg" width="49%" /> <img src=".readme/00000101.jpg" width="49%" />
+2. Select the Video File
+Click the "Open" button in the application window. This will open a file selection dialog.
 
-*Fig 1. Video annotation example. A frame (left), The next frame (right).*
+3. Choose the Video File
+In the file selection dialog, browse and select the video file you want to annotate. Make sure the selected video file contains the content you want to annotate.
 
+4. Video File Splitting
+Once you've selected the video file, Video Labelme will automatically split the video into individual image frames and place these frames in a folder with the same name as the original video file. The folder will be located in the same directory as the video file. Each frame image will be stored as a separate file in this folder.
 
-<img src=".readme/data_annotated.gif" width="98%" />
+5. Annotate the Images
+Once the video file has been split, and the related folder opens, you can annotate each frame image in sequential order. Use Video Labelme's annotation tools, such as polygons, rectangles, circles, lines, and points, to annotate the images.
 
-*Fig 2. Visualization of video semantic segmentation.*
+6. Automatic Annotation Copy
+After annotating the current frame image, click the "Next Image" button. This will automatically copy the annotations from the current image to the next frame image, making it easy for you to annotate sequentially.
 
+7. Save Annotations
+After completing annotations for all the frames in the video, make sure to save your annotations. Video Labelme will generate a JSON file containing all the annotation information for later analysis and use.
 
-## How to Convert a Video File to Images for Annotation?
+8. Finish Annotation
+Congratulations! You have completed the video annotation process. You can now continue to use Video Labelme to annotate other video files or perform other tasks.
 
-```bash
-pip install video-cli
+By following these steps, you can efficiently use Video Labelme to annotate each frame of a video file, providing annotation data for tasks such as object tracking, video segmentation, and action recognition. Happy annotating!
 
-video-toimg your_video.mp4  # this creates your_video/ directory
-ls your_video/
-
-labelme your_video/
-```

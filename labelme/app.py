@@ -7,6 +7,7 @@ import os
 import os.path as osp
 import re
 import webbrowser
+import cv2
 
 import imgviz
 import natsort
@@ -95,6 +96,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.dirty = False
 
         self._noSelectionSlot = False
+
+        self.label_video = False
 
         self._copied_shapes = None
 
@@ -1615,6 +1618,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filename = filename
         if self._config["keep_prev"]:
             prev_shapes = self.canvas.shapes
+        print(prev_shapes)
         self.canvas.loadPixmap(QtGui.QPixmap.fromImage(image))
         flags = {k: False for k in self._config["flags"] or []}
         if self.labelFile:
@@ -1813,21 +1817,51 @@ class MainWindow(QtWidgets.QMainWindow):
             "*.{}".format(fmt.data().decode())
             for fmt in QtGui.QImageReader.supportedImageFormats()
         ]
-        filters = self.tr("Image & Label files (%s)") % " ".join(
-            formats + ["*%s" % LabelFile.suffix]
-        )
+
+
+        filters = [self.tr("Image & Label files (%s)") % " ".join(formats + ["*%s" % LabelFile.suffix]), self.tr("Videos (*.avi *.mp4 *.mkv)")]
         fileDialog = FileDialogPreview(self)
         fileDialog.setFileMode(FileDialogPreview.ExistingFile)
-        fileDialog.setNameFilter(filters)
+        fileDialog.setNameFilters(filters)
         fileDialog.setWindowTitle(
-            self.tr("%s - Choose Image or Label file") % __appname__,
+            self.tr("%s - Choose Image or Video file") % __appname__,
         )
         fileDialog.setWindowFilePath(path)
         fileDialog.setViewMode(FileDialogPreview.Detail)
         if fileDialog.exec_():
             fileName = fileDialog.selectedFiles()[0]
             if fileName:
-                self.loadFile(fileName)
+                if fileName[-4:] in ['.mp4','.avi','.mkv']:
+                    self.label_video = True
+                    self._config["keep_prev"] = True
+                    # self.toggleKeepPrevMode.setChecked(True)
+                    self.enableSaveImageWithData(False)
+
+                    cap = cv2.VideoCapture(fileName)
+                    if not cap.isOpened():
+                        QtWidgets.QMessageBox.critical(self, "Attention", "Cannot open video file")
+
+                    else:
+                        frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+                        output_folder = os.path.splitext(fileName)[0]
+
+                        if not os.path.exists(output_folder):
+                            os.makedirs(output_folder, exist_ok=True)
+
+                            for i in range(frame_count):
+                                ret, frame = cap.read()
+                                if ret:
+                                    frame_filename = os.path.join(output_folder, f'{i:08d}.png')
+                                    cv2.imwrite(frame_filename, frame)
+                                else:
+                                    break
+
+                            cap.release()
+
+                        self.importDirImages(output_folder)
+                else:
+                    self.label_video = False
+                    self.loadFile(fileName)
 
     def changeOutputDirDialog(self, _value=False):
         default_output_dir = self.output_dir
