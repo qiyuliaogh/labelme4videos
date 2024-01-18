@@ -1618,7 +1618,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filename = filename
         if self._config["keep_prev"]:
             prev_shapes = self.canvas.shapes
-        print(prev_shapes)
+        # print(prev_shapes)
         self.canvas.loadPixmap(QtGui.QPixmap.fromImage(image))
         flags = {k: False for k in self._config["flags"] or []}
         if self.labelFile:
