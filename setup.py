@@ -30,6 +30,7 @@ def get_install_requires():
         "numpy",
         "onnxruntime>=1.14.1",
         "Pillow>=2.8",
+        "opencv-python",
         "PyYAML",
         "qtpy!=1.11.2",
         "scikit-image",
